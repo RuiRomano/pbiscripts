@@ -9,10 +9,15 @@ $currentPath = (Split-Path $MyInvocation.MyCommand.Definition –Parent)
 
 Connect-PowerBIServiceAccount
 
+Write-Host "Capacities"
+
+$capacities = Invoke-PowerBIRestMethod -url "capacities" -method Get | ConvertFrom-Json | Select -ExpandProperty value
+
+$capacities | Format-Table
+
 Write-Host "Getting workspaces"
 
-# If your tenant has more than 5000 workspaces
-$premiumWorkspaces = Invoke-PowerBIRestMethod -url "admin/groups?`$top=5000&`$filter=isOnDedicatedCapacity eq true" -method Get | ConvertFrom-Json | Select -ExpandProperty value
+$premiumWorkspaces  = Get-PowerBIWorkspace -Scope Organization -All -Filter "isOnDedicatedCapacity eq true"
 
 $sourcePremiumWorkspaces = @($premiumWorkspaces |? {$_.capacityId -eq $sourceCapacityId})
 

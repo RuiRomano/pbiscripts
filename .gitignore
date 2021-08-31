@@ -4,3 +4,5 @@ shareddatasets.json
 
 datasetlineage.json
 /relatedcontent.json
+
+/output/*

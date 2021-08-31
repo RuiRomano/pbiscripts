@@ -13,7 +13,7 @@ $workspaceId = "833acf64-db3c-48bf-818e-6f5f998e4734"
 $datasetOperatorsName = "StreamingDataset - Calls - Operators"
 $datasetTotalsName = "StreamingDataset - Calls - Totals"
 
-# README - If the dataset is recreated these endpoints must be obtained from the stream dataset settings
+# README - If the dataset is recreated these endpoints must be updated with the new API Url. You can get this URL on the Dataset settings
 $datasetOperatorsEndpoint = "https://api.powerbi.com/beta/3a364c67-349a-484d-8dcb-873c88970c00/datasets/2d5649fb-d841-4b2b-b7fd-d39e3998e76a/rows?key=RR3MP307efubWI9DiC%2FUjoXspeMjda%2B9p%2BWB8EM755tuPl7h2ZgEnx4CWsszxubozDdALTZSAGzjkd7MQZzcgQ%3D%3D"
 $datasetTotalsEndpoint = "https://api.powerbi.com/beta/3a364c67-349a-484d-8dcb-873c88970c00/datasets/56a56cfa-3210-4289-824c-a1728d16fb2f/rows?key=M8uWKTpjmPFN4UicLhdKWsl3jKjRFfhNcVwr%2BZnNqIBBhx7PUQEKGoDolYuxVAE5Eip4UpdFM0RpBRhjaA6LkQ%3D%3D"
 
