@@ -5,15 +5,15 @@ Connect-PowerBIServiceAccount
 
 #region Service Principal
 $appId = ""
-$appSecret = ""
 $tenantId = ""
-$credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $appId, ($appSecret | ConvertTo-SecureString -AsPlainText -Force)
+$appSecret = ""
+#$credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $appId, ($appSecret | ConvertTo-SecureString -AsPlainText -Force)
 #Disconnect-PowerBIServiceAccount
 #Connect-PowerBIServiceAccount -ServicePrincipal -Tenant $tenantId -Credential $credential
 #endregion
 
 # https://docs.microsoft.com/en-us/powershell/module/microsoftpowerbimgmt.workspaces/get-powerbiworkspace?view=powerbi-ps
-$workspaces = Get-PowerBIWorkspace
+$workspaces = Get-PowerBIWorkspace -All
 $workspaces | Format-Table
 $workspaces.Count
 

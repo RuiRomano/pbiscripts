@@ -4,9 +4,9 @@
 
 param(        
     # {workspaceId}/{reportId}
-    $oldDataSet = "8d820de8-53a6-4531-885d-20b27c85f413/bfe8d5c8-a153-4695-b732-ab7db23580d3" # DataSet A         
+    $oldDataSet =          "8d820de8-53a6-4531-885d-20b27c85f413/80ab741f-bcfe-44bb-8dd8-61505af01024" # Dataset B  
     ,
-    $newDataSet =  "8d820de8-53a6-4531-885d-20b27c85f413/80ab741f-bcfe-44bb-8dd8-61505af01024" # Dataset B  
+    $newDataSet =  "8d820de8-53a6-4531-885d-20b27c85f413/bfe8d5c8-a153-4695-b732-ab7db23580d3" # DataSet A
 )
 
 $ErrorActionPreference = "Stop"
