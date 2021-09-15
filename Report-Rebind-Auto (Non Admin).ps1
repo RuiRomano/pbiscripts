@@ -1,13 +1,13 @@
 ﻿#Requires -Modules @{ ModuleName="MicrosoftPowerBIMgmt"; ModuleVersion="1.2.1026" }
 
-# This script requires a manual operation first: Save the *relatedcontent* httprequest and save it locally on 'relatedcontent.json'
-
 param(        
-    # {workspaceId}/{reportId}
-    $oldDataSet = "8d820de8-53a6-4531-885d-20b27c85f413/80ab741f-bcfe-44bb-8dd8-61505af01024" # Dataset B 
+    # {workspace Id}/{Dataset Id}
+    $oldDataSet =  "8d820de8-53a6-4531-885d-20b27c85f413/80ab741f-bcfe-44bb-8dd8-61505af01024" # Dataset B   
     ,
-    $newDataSet =  "8d820de8-53a6-4531-885d-20b27c85f413/bfe8d5c8-a153-4695-b732-ab7db23580d3" # DataSet A         
+    $newDataSet =  "8d820de8-53a6-4531-885d-20b27c85f413/bfe8d5c8-a153-4695-b732-ab7db23580d3" # DataSet A      
 )
+
+cls
 
 $ErrorActionPreference = "Stop"
 $VerbosePreference = "SilentlyContinue"
@@ -34,7 +34,8 @@ $relatedContentPath = "$currentPath\relatedcontent.json"
 
 if (!(Test-Path $relatedContentPath))
 {
-    throw "Execute a DataLineage on the dataset '$oldDataSetId' with a network trace and save the request 'datalineage/impactAnalysis/models/*/relatedcontent' on file '$relatedContentPath'"
+    Write-Warning "Execute a DataLineage on the dataset '$oldDataSetId' with a browser network trace and save the request 'datalineage/impactAnalysis/models/*/relatedcontent' to local file '$relatedContentPath'"
+    return
 }
 
 $relatedContent = Get-Content $relatedContentPath | ConvertFrom-Json
