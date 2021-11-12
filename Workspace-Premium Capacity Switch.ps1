@@ -2,8 +2,8 @@
 
 cls
 
-$sourceCapacityId = "BEBF8A28-B230-4187-AD24-92FE2ECEAD53" #rrpbiembedtestgen2
-$targetCapacityId = "B841DB73-7A03-4349-BE78-2B81C32EC60F" #Premium Per User
+$sourceCapacityId = "45fa0865-b985-4eaf-886a-144cd56561e7" #Premium Per User
+$targetCapacityId = "7de26338-a4b5-445d-a455-058b336117a3" #rrpbiembedtestgen2
 
 $currentPath = (Split-Path $MyInvocation.MyCommand.Definition –Parent)
 

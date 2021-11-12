@@ -11,7 +11,7 @@ $currentPath = (Split-Path $MyInvocation.MyCommand.Definition -Parent)
 
 # https://app.powerbi.com/groups/8e953ff5-38fa-4b9e-9e63-1b897f2f005b/dashboards/172c4f21-b41a-42eb-8356-e616bec80fcd?ctid=3a364c67-349a-484d-8dcb-873c88970c00
 
-$workspaceId = "833acf64-db3c-48bf-818e-6f5f998e4734"
+$workspaceId = "3cdb0636-64c4-4ce7-b441-3f42b81ef01b"
 $datasetName = "PushDataSet - Server Counters"
 $reset = $true
 $computers = @($env:COMPUTERNAME)
@@ -74,7 +74,9 @@ if (!$dataset)
 	Write-Verbose "DataSet created with id: '$($result.id)"
 }
 else
-{    Write-Host "Dataset already created"}
+{
+    Write-Host "Dataset already created"
+}
 
 $datasetId = $dataset.Id
 

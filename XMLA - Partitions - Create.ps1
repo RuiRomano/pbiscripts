@@ -1,5 +1,5 @@
 ﻿param (
-$serverName = "powerbi://api.powerbi.com/v1.0/myorg/Session%20-%20PBI%20Dev%20on%20Steroids"
+$serverName = "powerbi://api.powerbi.com/v1.0/myorg/Session%20-%20PBI%20on%20Steroids"
 , $databaseName = "WWI - Sales (Partitioned)"
 , $years = (2013..2016)
 )
@@ -138,4 +138,5 @@ $partitions = @(
 )
 
 $results = Add-ASTablePartition -serverName $serverName -databaseName $databaseName -partitions $partitions -removeDefaultPartition -Verbose
+
 $results

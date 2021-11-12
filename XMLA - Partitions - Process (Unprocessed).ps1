@@ -1,5 +1,5 @@
 param (
-$serverName = "powerbi://api.powerbi.com/v1.0/myorg/Session%20-%20PBI%20Dev%20on%20Steroids"
+$serverName = "powerbi://api.powerbi.com/v1.0/myorg/Session%20-%20PBI%20on%20Steroids"
 , $databaseName = "WWI - Sales (Partitioned)"
 , $maxParallelism = 2
 , $batchPartitionCount = 5

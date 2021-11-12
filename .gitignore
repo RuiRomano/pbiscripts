@@ -6,3 +6,5 @@ datasetlineage.json
 /relatedcontent.json
 
 /output/*
+
+_temp/

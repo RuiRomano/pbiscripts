@@ -2,33 +2,16 @@
 
 # This script requires you to authenticate with a Power BI Admin account
 
-param(        
-    # {workspaceId}/{reportId}
-    $oldDataSet =          "8d820de8-53a6-4531-885d-20b27c85f413/80ab741f-bcfe-44bb-8dd8-61505af01024" # Dataset B  
+param(          
+    $oldDataSetId = "663ee438-1470-44a1-bc07-ce7c4b703760" # DataSet A   
     ,
-    $newDataSet =  "8d820de8-53a6-4531-885d-20b27c85f413/bfe8d5c8-a153-4695-b732-ab7db23580d3" # DataSet A
+    $newDataSetId =  "db12ea48-1bbd-4cb1-90bb-65897897a3a3" # Dataset B
 )
 
 $ErrorActionPreference = "Stop"
 $VerbosePreference = "SilentlyContinue"
 
 $currentPath = (Split-Path $MyInvocation.MyCommand.Definition -Parent)
-
-$oldWorkspaceId = (Split-Path $oldDataSet -Parent)
-$oldDataSetId = (Split-Path $oldDataSet -Leaf)
-
-$newWorkspaceId = (Split-Path $newDataSet -Parent)
-$newDataSetId = (Split-Path $newDataSet -Leaf)
-
-if (!$newWorkspaceId -or !$newDataSetId)
-{
-    throw "Cannot solve New DataSet Id's"
-}
-
-if (!$oldWorkspaceId -or !$oldDataSetId)
-{
-    throw "Cannot solve Old DataSet Id's"
-}
 
 Connect-PowerBIServiceAccount
 
