@@ -1,5 +1,7 @@
 #Requires -Modules @{ ModuleName="MicrosoftPowerBIMgmt"; ModuleVersion="1.2.1026" }
 
+cls
+
 # Authentication Prompt
 Connect-PowerBIServiceAccount
 
@@ -12,10 +14,24 @@ $appSecret = ""
 #Connect-PowerBIServiceAccount -ServicePrincipal -Tenant $tenantId -Credential $credential
 #endregion
 
+
 # https://docs.microsoft.com/en-us/powershell/module/microsoftpowerbimgmt.workspaces/get-powerbiworkspace?view=powerbi-ps
 $workspaces = Get-PowerBIWorkspace -All
 $workspaces | Format-Table
 $workspaces.Count
+
+# Call the API using the PowerBIRestMethod
+$workspaces = Invoke-PowerBIRestMethod -Url "groups" -Method Get | ConvertFrom-Json | select -ExpandProperty value
+$workspaces | Format-Table
+$workspaces.Count
+
+# RAW API Call - https://docs.microsoft.com/en-us/powershell/module/microsoftpowerbimgmt.profile/invoke-powerbirestmethod?view=powerbi-ps
+# https://app.powerbi.com/groups/1eb4ce83-58cb-4360-8ac5-b7930e81360a/list
+$workspaceDatasets = Invoke-PowerBIRestMethod -Url "groups/7de0b4c6-2c39-4723-9f20-0ac0252f3194/datasets" -Method Get | ConvertFrom-Json | select -ExpandProperty value
+$workspaceDatasets | Format-Table
+$workspaceDatasets.Count
+
+# Call API as Admin
 
 $workspacesAsAdmin = Get-PowerBIWorkspace -Scope Organization -All
 $workspacesAsAdmin | Format-Table
@@ -30,8 +46,4 @@ $workspaceDatasets = Get-PowerBIDataset -WorkspaceId "8d820de8-53a6-4531-885d-20
 $workspaceDatasets
 $workspaceDatasets.Count
 
-# RAW API Call - https://docs.microsoft.com/en-us/powershell/module/microsoftpowerbimgmt.profile/invoke-powerbirestmethod?view=powerbi-ps
-# https://app.powerbi.com/groups/1eb4ce83-58cb-4360-8ac5-b7930e81360a/list
-$workspaceDatasets = Invoke-PowerBIRestMethod -Url "groups/1eb4ce83-58cb-4360-8ac5-b7930e81360a/datasets" -Method Get | ConvertFrom-Json | select -ExpandProperty value
-$workspaceDatasets
-$workspaceDatasets.Count
+
