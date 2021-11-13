@@ -2,9 +2,7 @@
 
 $currentPath = (Split-Path $MyInvocation.MyCommand.Definition -Parent)
 
-# https://app.powerbi.com/groups/1eb4ce83-58cb-4360-8ac5-b7930e81360a/list
-
-$datasetId = "4425e7b6-fa28-48d9-8cdd-a5bfd62c93ab"
+$datasetId = "0ed822d8-46c5-4132-8dfc-0b813e126e06"
 
 $outputPath = "$currentPath\output"
 

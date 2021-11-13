@@ -1,29 +1,42 @@
 #Requires -Modules @{ ModuleName="MicrosoftPowerBIMgmt"; ModuleVersion="1.2.1026" }
 
-cls
+param (
+    $sourceCapacityName = "Premium Per User - Reserved"
+    ,
+    $targetCapacityName = "rrmsft_P1"
+)
 
-$sourceCapacityId = "45fa0865-b985-4eaf-886a-144cd56561e7" #Premium Per User
-$targetCapacityId = "7de26338-a4b5-445d-a455-058b336117a3" #rrpbiembedtestgen2
-
-$currentPath = (Split-Path $MyInvocation.MyCommand.Definition –Parent)
+$ErrorActionPreference = "Stop"
 
 Connect-PowerBIServiceAccount
 
-Write-Host "Capacities"
+Write-Host "Getting existent capacities"
 
-$capacities = Invoke-PowerBIRestMethod -url "capacities" -method Get | ConvertFrom-Json | Select -ExpandProperty value
+$capacities = Get-PowerBICapacity
 
-$capacities | Format-Table
+$sourceCapacity = ($capacities |? DisplayName -eq $sourceCapacityName | select -First 1)
+
+if (!$sourceCapacity)
+{
+    throw "Cannot find capacity with name '$sourceCapacityName'"
+}
+
+$targetCapacity = ($capacities |? DisplayName -eq $targetCapacityName | select -First 1)
+
+if (!$targetCapacity)
+{
+    throw "Cannot find capacity with name '$targetCapacityName'"
+}
 
 Write-Host "Getting workspaces"
 
 $premiumWorkspaces  = Get-PowerBIWorkspace -Scope Organization -All -Filter "isOnDedicatedCapacity eq true"
 
-$sourcePremiumWorkspaces = @($premiumWorkspaces |? {$_.capacityId -eq $sourceCapacityId})
+$sourcePremiumWorkspaces = @($premiumWorkspaces |? {$_.capacityId -eq $sourceCapacity.Id})
 
 if ($sourcePremiumWorkspaces.Count -gt 0)
 {
-    Write-Host "Assigning $($sourcePremiumWorkspaces.Count) workspaces to new capacity '$targetCapacityId'"
+    Write-Host "Assigning $($sourcePremiumWorkspaces.Count) workspaces to new capacity '$($targetCapacity.DisplayName)' / '$($targetCapacity.Id)'"
 
     $workspaceIds = @($sourcePremiumWorkspaces.id)
 
@@ -31,7 +44,7 @@ if ($sourcePremiumWorkspaces.Count -gt 0)
 
     $body = @{
         capacityMigrationAssignments=  @(@{
-            targetCapacityObjectId = $targetCapacityId;
+            targetCapacityObjectId = $targetCapacity.Id;
             workspacesToAssign = $workspaceIds
         })
     }
@@ -42,5 +55,5 @@ if ($sourcePremiumWorkspaces.Count -gt 0)
 }
 else
 {
-    Write-Host "No workspaces on source capacity: '$sourceCapacityId'"
+    Write-Host "No workspaces on source capacity: '$($sourceCapacity.DisplayName)' / '$($sourceCapacity.Id)'"
 }
