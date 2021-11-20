@@ -59,7 +59,7 @@ RequiredAssemblies = @()
 
 # Functions to export from this module
 FunctionsToExport = @(
-	"Invoke-ASCommand", "Invoke-ASTableProcess", "Add-ASTablePartition", "Get-ASTable", "Update-ASDatabase", "Get-ASTablePartition", "Remove-ASTablePartition", "Connect-ASServer", "Save-ASDatabaseChanges", "Set-ModuleConfig"
+	"Invoke-XMLAScript", "Invoke-ASTableProcess", "Add-ASTablePartition", "Get-ASTable", "Update-ASDatabase", "Get-ASTablePartition", "Remove-ASTablePartition", "Connect-ASServer", "Save-ASDatabaseChanges", "Set-ModuleConfig"
 )
 
 # Cmdlets to export from this module

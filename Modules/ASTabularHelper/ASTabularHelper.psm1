@@ -33,41 +33,66 @@ Function Set-ModuleConfig
     }
 }
 
-Function Invoke-ASCommand
+Function Invoke-XMLAScript
 {
-    [CmdletBinding()]
     param
     (
-        [Parameter(Mandatory=$true)]
-        [string] $serverName
+        [Parameter(Mandatory = $true)]
+        [string]$serverName
         ,
-        [string] $command
+        [Parameter(ParameterSetName = 'script', Mandatory = $true)]
+        [string]$xmlaScript   
+        ,
+        [Parameter(ParameterSetName = 'file', Mandatory = $true)]
+        [string]$xmlaScriptFilePath
+        ,
+        [System.Text.Encoding] $encoding = [System.Text.Encoding]::Default    
+        ,
+        [string] $username
+        ,
+        [string] $password
+        ,
+        [string] $authToken 
 	)
 
-    try {
+    try
+    {       
+        $server = Connect-ASServer -serverName $serverName -userId $username -password $password -authToken $authToken        
+     
+        Write-Log "Executing XMLA on on '$serverName'"
 
-        $server = Connect-ASServer -serverName $serverName
+        if (![string]::IsNullOrEmpty($xmlaScriptFilePath))
+        {
+            $xmlaScript = [IO.File]::ReadAllText($xmlaScriptFilePath, $encoding)
+        }
 
-        Write-Log "Executing command"
+        $result = $server.Execute($xmlaScript)
 
-        $sw = [system.diagnostics.stopwatch]::StartNew()
+        if ($result.ContainsErrors -eq $true)
+        {
+            $strErrors = ""
 
-        $result = $server.Execute($script)        
+            # Get Messages
 
-        Write-Output $result
+            $nl = [System.Environment]::NewLine
 
-        $sw.Stop()
+            foreach($xr in $result.Messages)
+            {
+                $strErrors += $xr.Description
+                $strErrors += $nl
+            }
 
-        Write-Log "Time: $($sw.Elapsed.TotalSeconds)s"
+            throw "Error executing Deploy to Server: $($nl)$($strErrors)"
+        }
+
     }
-    finally {
-
+    finally
+    {
         if ($server)
         {
             $server.Dispose()
         }
     }
-
 }
 
 Function Invoke-ASTableProcess

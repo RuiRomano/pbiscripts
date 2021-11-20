@@ -27,7 +27,7 @@ $workspaces.Count
 
 # RAW API Call - https://docs.microsoft.com/en-us/powershell/module/microsoftpowerbimgmt.profile/invoke-powerbirestmethod?view=powerbi-ps
 # https://app.powerbi.com/groups/1eb4ce83-58cb-4360-8ac5-b7930e81360a/list
-$workspaceDatasets = Invoke-PowerBIRestMethod -Url "groups/7de0b4c6-2c39-4723-9f20-0ac0252f3194/datasets" -Method Get | ConvertFrom-Json | select -ExpandProperty value
+$workspaceDatasets = Invoke-PowerBIRestMethod -Url "groups/cdee92d2-3ff9-43e2-9f71-0916e888ad27/datasets" -Method Get | ConvertFrom-Json | select -ExpandProperty value
 $workspaceDatasets | Format-Table
 $workspaceDatasets.Count
 
