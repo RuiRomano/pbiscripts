@@ -2,14 +2,6 @@
 
 cls
 
-$ErrorActionPreference = "Stop"
-$VerbosePreference = "Continue"
-
-$currentPath = (Split-Path $MyInvocation.MyCommand.Definition -Parent)
-
-# parameters
-
-
 # Object Id from Azure AD
 $userGraphId = "1e399999-ee51-4ebb-9c84-7adb562d1074"
 
