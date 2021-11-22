@@ -21,4 +21,18 @@ Connect-PowerBIServiceAccount
 
 $result = Invoke-PowerBIRestMethod -method Get -url "admin/users/$userGraphId/artifactAccess" | ConvertFrom-Json
 
-$result.ArtifactAccessEntities | Format-Table
+$artifactAccessEntities = @()
+
+$artifactAccessEntities += @($result.ArtifactAccessEntities)
+
+while($result.continuationToken -ne $null)
+{          
+    $result = Invoke-PowerBIRestMethod -Url $result.continuationUri -method Get | ConvertFrom-Json
+                                
+    if ($result.ArtifactAccessEntities)
+    {
+        $artifactAccessEntities += @($result.ArtifactAccessEntities)
+    }
+}
+
+$artifactAccessEntities | Format-Table
