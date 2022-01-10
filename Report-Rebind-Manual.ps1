@@ -3,11 +3,10 @@
 param(           
     $reports = @(
          # {workspaceId}/{reportId} - get from the URL: https://app.powerbi.com/groups/8d820de8-53a6-4531-885d-20b27c85f413/reports/1c4595e4-b634-4f53-a963-df3a718f36ba            
-        "aafc842b-f6d8-4006-bbdc-0eb2130b3fa6/f04b284a-fad2-4c53-8a8e-a19bae93f929" 
-        ,
-        "aafc842b-f6d8-4006-bbdc-0eb2130b3fa6/1333a143-37b9-40df-a798-a26e77619c03" 
+        "cdee92d2-3ff9-43e2-9f71-0916e888ad27/bd56fa8f-e9b4-490f-b2bf-53012e5a55b3"         
+        #,"aafc842b-f6d8-4006-bbdc-0eb2130b3fa6/1333a143-37b9-40df-a798-a26e77619c03" 
     )
-    , $datasetId = "e0f9d017-7e56-45ec-b39c-d09352a64828" 
+    , $datasetId = "8659b030-2f7d-44bf-a265-5bf2425fb04f" 
 )
 
 
