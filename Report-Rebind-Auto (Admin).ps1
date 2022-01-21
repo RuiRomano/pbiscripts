@@ -3,9 +3,9 @@
 # This script requires you to authenticate with a Power BI Admin account
 
 param(          
-    $oldDataSetId = "663ee438-1470-44a1-bc07-ce7c4b703760" # DataSet A  
+    $oldDataSetId = "db12ea48-1bbd-4cb1-90bb-65897897a3a3" # Dataset B 
     ,
-    $newDataSetId =  "db12ea48-1bbd-4cb1-90bb-65897897a3a3" # Dataset B 
+    $newDataSetId =  "663ee438-1470-44a1-bc07-ce7c4b703760" # DataSet A  
 )
 
 $ErrorActionPreference = "Stop"
@@ -51,7 +51,7 @@ foreach ($report in $oldDataSetRelatedReports)
     # If is a personal workspace, workspaceid must be null on rebind
 
     if ($report.WorkspaceType -eq "PersonalGroup")
-    {
+    {            
         $workspaceId = $null
     }
 

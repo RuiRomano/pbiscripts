@@ -3,15 +3,15 @@
 cls
 
 # Authentication Prompt
-Connect-PowerBIServiceAccount
+#Connect-PowerBIServiceAccount
 
 #region Service Principal
-$appId = ""
-$tenantId = ""
-$appSecret = ""
-#$credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $appId, ($appSecret | ConvertTo-SecureString -AsPlainText -Force)
+$appId = "9f696cea-69d1-45ed-a42b-84fb31f9fe54"
+$tenantId = "4a86d5bb-4173-45ee-bfd5-a3b56ee2d3d5"
+$appSecret = "klq7Q~ik_leib9m6MQqhu6VETLrbMwuPjj~GD"
+$credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $appId, ($appSecret | ConvertTo-SecureString -AsPlainText -Force)
 #Disconnect-PowerBIServiceAccount
-#Connect-PowerBIServiceAccount -ServicePrincipal -Tenant $tenantId -Credential $credential
+Connect-PowerBIServiceAccount -ServicePrincipal -Tenant $tenantId -Credential $credential
 #endregion
 
 

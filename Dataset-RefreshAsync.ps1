@@ -9,7 +9,8 @@ param(
     ,
     $maxParallelism = 6
     ,
-    $commitMode = "transactional"
+    #$commitMode = "transactional"    
+    $commitMode = "partialBatch"
     ,
     $retryCount = 0
     ,
@@ -73,11 +74,13 @@ do
     $refreshDetails = Invoke-PowerBIRestMethod -url "groups/$workspaceId/datasets/$datasetId/refreshes/$refreshId" -method Get | ConvertFrom-Json
 
     Write-Host "Status: $($refreshDetails.status)"
+    Write-Host ($refreshDetails.objects | format-table | out-string)
     Write-Host "sleeping..."
 
     Start-Sleep -Seconds 2
 
 }
+
 while($refreshDetails.status -iin @("Unknown", "inProgress", "notStarted"))
 
 Write-Host "Refresh complete: $((([datetime]$refreshDetails.endTime) - ([datetime]$refreshDetails.startTime)).TotalSeconds)s"
