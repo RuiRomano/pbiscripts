@@ -7,7 +7,7 @@ param(
     ,
     $type = "full"
     ,
-    $maxParallelism = 6
+    $maxParallelism = 3
     ,
     #$commitMode = "transactional"    
     $commitMode = "partialBatch"
@@ -17,6 +17,10 @@ param(
     $objects = @(
         @{
             "table" = "Product"           
+        }    
+        ,
+         @{
+            "table" = "Store"           
         }    
         ,
         @{
@@ -29,6 +33,18 @@ param(
             "table" = "Sales"
             ;
             "partition" = "Sales_2019"
+        } 
+        ,
+        @{
+            "table" = "Sales"
+            ;
+            "partition" = "Sales_2017"
+        } 
+        ,
+        @{
+            "table" = "Sales"
+            ;
+            "partition" = "Sales_2016"
         } 
     )
     
