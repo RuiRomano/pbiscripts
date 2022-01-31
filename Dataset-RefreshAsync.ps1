@@ -68,7 +68,7 @@ $executeJsonBody = $executeJsonObj | ConvertTo-Json -Depth 5
 
 Connect-PowerBIServiceAccount
 
-# Get running refreshes, only 1 operation is allowed
+# Get running refreshes, only 1 operation is allowed "Only one refresh operation at a time is accepted for a dataset. If there's a current running refresh operation and another is submitted"
 
 $refreshes = Invoke-PowerBIRestMethod -url "groups/$workspaceId/datasets/$datasetId/refreshes?`$top=10" -method Get | ConvertFrom-Json | select -ExpandProperty value
 

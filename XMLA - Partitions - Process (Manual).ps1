@@ -8,6 +8,12 @@ $currentPath = (Split-Path $MyInvocation.MyCommand.Definition -Parent)
 
 Add-Type -Path "$currentPath\Modules\ASTabularHelper\Microsoft.AnalysisServices.Tabular.dll"
 
+$asModelType = [Microsoft.AnalysisServices.Tabular.Model]
+
+$assembly = $asModelType.Assembly
+
+Write-Host "Assembly version loaded: '$($assembly.FullName)' from '$($assembly.Location)'"
+
 try
 {    
     Write-Host "Connecting to Server: '$serverName'"

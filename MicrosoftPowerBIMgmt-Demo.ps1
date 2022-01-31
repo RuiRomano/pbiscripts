@@ -3,47 +3,51 @@
 cls
 
 # Authentication Prompt
-#Connect-PowerBIServiceAccount
+Connect-PowerBIServiceAccount
 
 #region Service Principal
-$appId = "9f696cea-69d1-45ed-a42b-84fb31f9fe54"
-$tenantId = "4a86d5bb-4173-45ee-bfd5-a3b56ee2d3d5"
-$appSecret = "klq7Q~ik_leib9m6MQqhu6VETLrbMwuPjj~GD"
+$appId = ""
+$tenantId = ""
+$appSecret = ""
 $credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $appId, ($appSecret | ConvertTo-SecureString -AsPlainText -Force)
 #Disconnect-PowerBIServiceAccount
 Connect-PowerBIServiceAccount -ServicePrincipal -Tenant $tenantId -Credential $credential
 #endregion
 
-
-# https://docs.microsoft.com/en-us/powershell/module/microsoftpowerbimgmt.workspaces/get-powerbiworkspace?view=powerbi-ps
-$workspaces = Get-PowerBIWorkspace -All
-$workspaces | Format-Table
-$workspaces.Count
-
 # Call the API using the PowerBIRestMethod
-$workspaces = Invoke-PowerBIRestMethod -Url "groups" -Method Get | ConvertFrom-Json | select -ExpandProperty value
-$workspaces | Format-Table
-$workspaces.Count
+$result = Invoke-PowerBIRestMethod -Url "groups" -Method Get | ConvertFrom-Json | select -ExpandProperty value
+$result | Format-Table
+$result.Count
 
 # RAW API Call - https://docs.microsoft.com/en-us/powershell/module/microsoftpowerbimgmt.profile/invoke-powerbirestmethod?view=powerbi-ps
 # https://app.powerbi.com/groups/1eb4ce83-58cb-4360-8ac5-b7930e81360a/list
-$workspaceDatasets = Invoke-PowerBIRestMethod -Url "groups/cdee92d2-3ff9-43e2-9f71-0916e888ad27/datasets" -Method Get | ConvertFrom-Json | select -ExpandProperty value
-$workspaceDatasets | Format-Table
-$workspaceDatasets.Count
+$result = Invoke-PowerBIRestMethod -Url "groups/da09fedd-9cb2-460a-986f-9624a1662168/datasets" -Method Get | ConvertFrom-Json | select -ExpandProperty value
+$result | Format-Table
+$result.Count
+
+# https://docs.microsoft.com/en-us/rest/api/power-bi/admin/apps-get-apps-as-admin
+$result = Invoke-PowerBIRestMethod -Url "admin/apps?`$top=2000" -Method Get | ConvertFrom-Json | select -ExpandProperty value
+$result | Format-Table
+$result.Count
+
+# https://docs.microsoft.com/en-us/powershell/module/microsoftpowerbimgmt.workspaces/get-powerbiworkspace?view=powerbi-ps
+$result = Get-PowerBIWorkspace -All
+$result | Format-Table
+$result.Count
 
 # Call API as Admin
 
-$workspacesAsAdmin = Get-PowerBIWorkspace -Scope Organization -All
-$workspacesAsAdmin | Format-Table
-$workspacesAsAdmin.Count
+$result = Get-PowerBIWorkspace -Scope Organization -All
+$result | Format-Table
+$result.Count
 
 # https://docs.microsoft.com/en-us/powershell/module/microsoftpowerbimgmt.data/get-powerbidataset?view=powerbi-ps
-$workspaceDatasets = Get-PowerBIDataset -WorkspaceId "1eb4ce83-58cb-4360-8ac5-b7930e81360a"
-$workspaceDatasets
-$workspaceDatasets.Count
+$result = Get-PowerBIDataset -WorkspaceId "1eb4ce83-58cb-4360-8ac5-b7930e81360a"
+$result
+$result.Count
 
-$workspaceDatasets = Get-PowerBIDataset -WorkspaceId "8d820de8-53a6-4531-885d-20b27c85f413"
-$workspaceDatasets
-$workspaceDatasets.Count
+$result = Get-PowerBIDataset -WorkspaceId "8d820de8-53a6-4531-885d-20b27c85f413"
+$result
+$result.Count
 
 
