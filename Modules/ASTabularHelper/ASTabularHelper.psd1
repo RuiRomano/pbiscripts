@@ -4,19 +4,19 @@
 RootModule = 'ASTabularHelper.psm1'
 
 # Version number of this module.
-ModuleVersion = '2.0.1.0'
+ModuleVersion = '3.0.1.0'
 
 # ID used to uniquely identify this module
 GUID = '4380560b-ec14-4627-af81-635405ceb29f'
 
 # Author of this module
-Author = '"DevScope"'
+Author = '"Rui Romano"'
 
 # Company or vendor of this module
-CompanyName = 'DevScope'
+CompanyName = ''
 
 # Copyright statement for this module
-Copyright = '(c) 2020 DevScope. All rights reserved.'
+Copyright = ''
 
 # Description of the functionality provided by this module
 Description = ''
@@ -60,6 +60,7 @@ RequiredAssemblies = @()
 # Functions to export from this module
 FunctionsToExport = @(
 	"Invoke-XMLAScript", "Invoke-ASTableProcess", "Add-ASTablePartition", "Get-ASTable", "Update-ASDatabase", "Get-ASTablePartition", "Remove-ASTablePartition", "Connect-ASServer", "Save-ASDatabaseChanges", "Set-ModuleConfig"
+    , "Get-ASDatabase"
 )
 
 # Cmdlets to export from this module

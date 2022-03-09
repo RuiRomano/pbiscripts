@@ -717,11 +717,43 @@ Function Remove-ASTablePartition
     }
 }
 
+Function Get-ASDatabase
+{
+    [CmdletBinding()]
+    param
+    (
+        [string] $serverName
+        ,
+        [string] $databaseName
+        ,
+        [string] $username
+        ,
+        [string] $password        ,
+        [string] $bimFilePath
+	)
+
+    try
+    {
+
+        $server = Connect-ASServer -serverName $serverName -userId $username -password $password
+
+        $database = $server.Databases.GetByName($databaseName)
+
+        $databaseStr = [Microsoft.AnalysisServices.Tabular.JsonSerializer]::SerializeDatabase($database)
+
+        $databaseStr | Out-File $bimFilePath -Force
+    }
+    finally
+    {
+        if ($server)
+        {
+            $server.Dispose()
+        }
+    }
+}
+
 Function Get-ASTablePartition
 {
-<#
-
-#>
     [CmdletBinding()]
     param
     (
