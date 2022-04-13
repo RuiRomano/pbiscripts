@@ -8,3 +8,5 @@ datasetlineage.json
 /output/*
 
 _temp/
+
+/nuget/*
