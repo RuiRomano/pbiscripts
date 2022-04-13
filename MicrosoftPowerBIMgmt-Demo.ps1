@@ -1,6 +1,6 @@
-#Requires -Modules @{ ModuleName="MicrosoftPowerBIMgmt"; ModuleVersion="1.2.1026" }
-
 cls
+
+Install-Module MicrosoftPowerBIMgmt
 
 # Authentication Prompt
 Connect-PowerBIServiceAccount

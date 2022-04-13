@@ -1,7 +1,7 @@
 #Requires -Modules @{ ModuleName="MicrosoftPowerBIMgmt"; ModuleVersion="1.2.1026" }
 
 param (
-    $sourceCapacityName = "Premium Per User - Reserved"
+    $sourceCapacityName = "rrpbiembedded"
     ,
     $targetCapacityName = "rrmsft_P1"
 )
@@ -13,6 +13,8 @@ Connect-PowerBIServiceAccount
 Write-Host "Getting existent capacities"
 
 $capacities = Get-PowerBICapacity
+
+$capacities | Format-Table
 
 $sourceCapacity = ($capacities |? DisplayName -eq $sourceCapacityName | select -First 1)
 
@@ -30,28 +32,35 @@ if (!$targetCapacity)
 
 Write-Host "Getting workspaces"
 
-$premiumWorkspaces  = Get-PowerBIWorkspace -Scope Organization -All -Filter "isOnDedicatedCapacity eq true"
+$premiumWorkspaces  = Get-PowerBIWorkspace -Scope Organization -All -Filter "isOnDedicatedCapacity eq true and tolower(state) eq 'active'"
 
-$sourcePremiumWorkspaces = @($premiumWorkspaces |? {$_.capacityId -eq $sourceCapacity.Id})
+$sourcePremiumWorkspaces = @($premiumWorkspaces |? {$_.capacityId -eq $sourceCapacity.Id}) | sort-object -Property Id -Unique
 
 if ($sourcePremiumWorkspaces.Count -gt 0)
 {
     Write-Host "Assigning $($sourcePremiumWorkspaces.Count) workspaces to new capacity '$($targetCapacity.DisplayName)' / '$($targetCapacity.Id)'"
 
-    $workspaceIds = @($sourcePremiumWorkspaces.id)
+    $sourcePremiumWorkspaces | Format-Table
 
-    # Unassign workspaces
+    $confirmation = Read-Host "Are you Sure You Want To Proceed (y)"
 
-    $body = @{
-        capacityMigrationAssignments=  @(@{
-            targetCapacityObjectId = $targetCapacity.Id;
-            workspacesToAssign = $workspaceIds
-        })
+    if ($confirmation -ieq 'y') {
+
+        $workspaceIds = @($sourcePremiumWorkspaces.id)
+
+        # Unassign workspaces
+
+        $body = @{
+            capacityMigrationAssignments=  @(@{
+                targetCapacityObjectId = $targetCapacity.Id;
+                workspacesToAssign = $workspaceIds
+            })
+        }
+
+        $bodyStr = ConvertTo-Json $body -Depth 3
+    
+        Invoke-PowerBIRestMethod -url "admin/capacities/AssignWorkspaces" -method Post -body $bodyStr
     }
-
-    $bodyStr = ConvertTo-Json $body -Depth 3
- 
-    Invoke-PowerBIRestMethod -url "admin/capacities/AssignWorkspaces" -method Post -body $bodyStr
 }
 else
 {

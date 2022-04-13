@@ -3,9 +3,9 @@
 # This script requires you to authenticate with a Power BI Admin account
 
 param(          
-    $oldDataSetId = "db12ea48-1bbd-4cb1-90bb-65897897a3a3" # Dataset B 
+    $oldDataSetId = "db12ea48-1bbd-4cb1-90bb-65897897a3a3" # Dataset B
     ,
-    $newDataSetId =  "663ee438-1470-44a1-bc07-ce7c4b703760" # DataSet A  
+    $newDataSetId =  "663ee438-1470-44a1-bc07-ce7c4b703760" # DataSet A   
 )
 
 $ErrorActionPreference = "Stop"
