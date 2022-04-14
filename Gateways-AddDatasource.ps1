@@ -2,8 +2,8 @@
 
 param(            
     $gatewayId = "0380ed77-237f-42ec-8f1a-05f2c6cd4a33",
-    $server = "sqlserver",
-    $database = "database",
+    $server = "COMPUTER\\\\SQL2019",
+    $database = "Contoso 1M",
     $username = "username",
     $password = "password"      
 )
