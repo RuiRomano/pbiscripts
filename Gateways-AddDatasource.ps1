@@ -2,10 +2,10 @@
 
 param(            
     $gatewayId = "0380ed77-237f-42ec-8f1a-05f2c6cd4a33",
-    $server = "DESKTOP-P8IUPCD\\SQL2019",
-    $database = "Contoso 100K",
-    $username = "<UserName>",
-    $password = "<Password>"      
+    $server = "sqlserver",
+    $database = "database",
+    $username = "username",
+    $password = "password"      
 )
 
 $currentPath = (Split-Path $MyInvocation.MyCommand.Definition -Parent)
@@ -43,7 +43,7 @@ else {
     # Construct the CredentialDetails object. The resulting "Credentials" property on this object will have been encrypted appropriately, ready for use in the request payload.
     $credentialDetails = [Microsoft.PowerBI.Api.Models.CredentialDetails]::new(
         $basicCreds, 
-        [Microsoft.PowerBI.Api.Models.PrivacyLevel]::Private, 
+        [Microsoft.PowerBI.Api.Models.PrivacyLevel]::Organizational, 
         [Microsoft.PowerBI.Api.Models.EncryptedConnection]::Encrypted, 
         $credentialsEncryptor)
 
@@ -52,11 +52,12 @@ else {
         ""connectionDetails"": ""{\""server\"":\""$server\"",\""database\"":\""$database\""}"",
         ""datasourceName"": ""$database"",
         ""credentialDetails"": {
+            ""credentials"": ""$($credentialDetails.Credentials)"",     
             ""credentialType"": ""Basic"",
-            ""credentials"": ""$($credentialDetails.Credentials)"",            
             ""encryptedConnection"": ""Encrypted"",
             ""encryptionAlgorithm"": ""RSA-OAEP"",
-            ""privacyLevel"": ""Private""
+            ""privacyLevel"": ""Organizational"",
+            ""useCallerAADIdentity"": ""False""
             }
       }
       "
