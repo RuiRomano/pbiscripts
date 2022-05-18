@@ -13,8 +13,19 @@ $VerbosePreference = "SilentlyContinue"
 
 $currentPath = (Split-Path $MyInvocation.MyCommand.Definition -Parent)
 
+$appId = ""
+$tenantId = ""
+$appSecret = ""
 
-Connect-PowerBIServiceAccount
+if ($appId)
+{
+    $credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $appId, ($appSecret | ConvertTo-SecureString -AsPlainText -Force)
+
+    Connect-PowerBIServiceAccount -ServicePrincipal -Tenant $tenantId -Credential $credential
+}
+else {
+    Connect-PowerBIServiceAccount
+}
 
 $bodyStr = @{format=$format} | ConvertTo-Json
 
@@ -36,7 +47,9 @@ while($status.status -in @("NotStarted", "Running"))
 
 if ($status.status -eq "Succeeded")
 {
-    Write-Host "Export Successfull"
-    
-    $result = Invoke-PowerBIRestMethod -url "groups/$workspaceId/reports/$reportId/exports/$($status.id)/file" -method Get -OutFile "$currentPath\output\export_$($status.id).$format"
+    $outputFile = "$currentPath\output\export_$($status.id).$format"
+
+    Write-Host "Export Successfull, writing output to: '$outputFile'"
+
+    $result = Invoke-PowerBIRestMethod -url "groups/$workspaceId/reports/$reportId/exports/$($status.id)/file" -method Get -OutFile $outputFile
 }
