@@ -1,51 +1,51 @@
 #Requires -Modules @{ ModuleName="MicrosoftPowerBIMgmt"; ModuleVersion="1.2.1026" }
 
 param(
-    $workspaceId = "cdee92d2-3ff9-43e2-9f71-0916e888ad27"
+    $workspaceId = "279de5c8-f502-43e7-8b65-5e9ebd6f9434"
     ,
-    $datasetId = "ff63139f-eea9-4296-a5e4-3f56c0005701"
+    $datasetId = "d170a893-d222-435e-9e0a-140e37c6260f"
     ,
     $type = "full"
     ,
     $maxParallelism = 3
     ,
-    #$commitMode = "transactional"    
-    $commitMode = "partialBatch"
+    $commitMode = "transactional"    
+    #$commitMode = "partialBatch"
     ,
     $retryCount = 0
     ,
     $objects = @(
-        @{
-            "table" = "Product"           
-        }    
-        ,
-         @{
-            "table" = "Store"           
-        }    
-        ,
-        @{
-            "table" = "Sales"
-            ;
-            "partition" = "Sales_2018"
-        }
-        ,
-        @{
-            "table" = "Sales"
-            ;
-            "partition" = "Sales_2019"
-        } 
-        ,
-        @{
-            "table" = "Sales"
-            ;
-            "partition" = "Sales_2017"
-        } 
-        ,
-        @{
-            "table" = "Sales"
-            ;
-            "partition" = "Sales_2016"
-        } 
+        # @{
+        #     "table" = "Product"           
+        # }    
+        # ,
+        #  @{
+        #     "table" = "Store"           
+        # }    
+        # ,
+        # @{
+        #     "table" = "Sales"
+        #     ;
+        #     "partition" = "Sales_2018"
+        # }
+        # ,
+        # @{
+        #     "table" = "Sales"
+        #     ;
+        #     "partition" = "Sales_2019"
+        # } 
+        # ,
+        # @{
+        #     "table" = "Sales"
+        #     ;
+        #     "partition" = "Sales_2017"
+        # } 
+        # ,
+        # @{
+        #     "table" = "Sales"
+        #     ;
+        #     "partition" = "Sales_2016"
+        #} 
     )
     
 )
