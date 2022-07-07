@@ -1,27 +1,23 @@
 #Requires -Modules @{ ModuleName="MicrosoftPowerBIMgmt"; ModuleVersion="1.2.1026" }
 
 param(
-    $workspaceId = "c46988ea-13e9-4110-aeb5-a04141794996"
+    $workspaceId = "7f7953b3-8399-4126-8027-3cb864a68902"
     ,
-    $datasetId = "b9b54c19-a011-441b-8223-265cb550dafb"
+    $datasetId = "7c410402-3c9b-4fd8-8e3c-265ccc6afee9"
     ,
     $type = "full"
     ,
     $maxParallelism = 3
     ,
-    #$commitMode = "transactional"    
-    $commitMode = "partialBatch"
+    $commitMode = "transactional"    
+    #$commitMode = "partialBatch"
     ,
     $retryCount = 0
     ,
     $objects = @(
         @{
-            "table" = "Product"           
-        }    
-        # ,
-        # @{
-        #     "table" = "Sales"     
-        # }              
+            "table" = "DummyTable"           
+        }            
     )
     
 )
@@ -75,4 +71,5 @@ do
 
 while($refreshDetails.status -iin @("Unknown", "inProgress", "notStarted"))
 
+Write-Output $refreshDetails
 Write-Host "Refresh complete: $((([datetime]$refreshDetails.endTime) - ([datetime]$refreshDetails.startTime)).TotalSeconds)s"
