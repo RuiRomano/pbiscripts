@@ -2,8 +2,10 @@
 
 param (    
     $modifiedSince = $null, ##[datetime]::UtcNow.Date.AddDays(-10),
-    $getInfoDetails = "getArtifactUsers=true&lineage=false&datasourceDetails=false&datasetSchema=false&datasetExpressions=false",
-    $excludePersonalWorkspaces = $false
+    $getInfoDetails = "getArtifactUsers=true&lineage=false&datasourceDetails=true&datasetSchema=true&datasetExpressions=true",
+    $excludePersonalWorkspaces = $false,
+    $excludeInActiveWorkspaces = $false,
+    $outputPath = ".\output\workspacescan"
 )
 
 #region Functions
@@ -90,7 +92,7 @@ $ErrorActionPreference = "Stop"
 
 $currentPath = (Split-Path $MyInvocation.MyCommand.Definition -Parent)
 
-$outputPath = "$currentPath\output\workspacescan"   
+Set-Location $currentPath
 
 $scansOutputPath = Join-Path $outputPath ("{0:yyyy}\{0:MM}\{0:dd}" -f [datetime]::Today)
 
@@ -98,7 +100,7 @@ New-Item -ItemType Directory -Path $scansOutputPath -ErrorAction SilentlyContinu
 
 Connect-PowerBIServiceAccount
     
-$modifiedRequestUrl = "admin/workspaces/modified?excludePersonalWorkspaces=$excludePersonalWorkspaces"
+$modifiedRequestUrl = "admin/workspaces/modified?excludePersonalWorkspaces=$excludePersonalWorkspaces&excludeInActiveWorkspaces=$excludeInActiveWorkspaces"
 
 if ($modifiedSince)
 {
