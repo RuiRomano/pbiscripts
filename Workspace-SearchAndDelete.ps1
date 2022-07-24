@@ -29,8 +29,8 @@ if ($filteredWorkspaces.Count -eq 0)
 }
 else 
 {
-    # TODO - Its not possible to delete workspace as admin, but its possible to add yourself as admin and delete after
-    
+    # TODO - Its not possible to delete workspace as admin, but its possible to add yourself as admin and delete afterq
+
     Write-Host "Found '$($filteredWorkspaces.Count)' workspaces"
     
     $filteredWorkspaces | Format-Table
