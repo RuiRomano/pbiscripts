@@ -7,7 +7,7 @@ $serverName = "powerbi://api.powerbi.com/v1.0/myorg/Session%20-%20PBI%20on%20Ste
 
 $currentPath = (Split-Path $MyInvocation.MyCommand.Definition -Parent)
 
-Import-Module "$currentPath\Modules\ASTabularHelper" -Force
+Import-Module "$currentPath\TOMHelper.psm1" -Force
 
 $tables = Get-ASTable -serverName $serverName -databaseName $databaseName -includePartitions
 

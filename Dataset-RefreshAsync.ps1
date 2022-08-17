@@ -9,8 +9,8 @@ param(
     ,
     $maxParallelism = 3
     ,
-    #$commitMode = "transactional"    
-    $commitMode = "partialBatch"
+    $commitMode = "transactional"    
+    #$commitMode = "partialBatch"
     ,
     $retryCount = 2
     ,
@@ -72,7 +72,7 @@ Connect-PowerBIServiceAccount
 
 $refreshes = Invoke-PowerBIRestMethod -url "groups/$workspaceId/datasets/$datasetId/refreshes?`$top=10" -method Get | ConvertFrom-Json | select -ExpandProperty value
 
-if (!($refreshes |? { $_.refreshType -eq "ReliableProcessing" -and $_.status -iin @("Unknown", "inProgress", "notStarted") }))
+if (!($refreshes |? { $_.refreshType -eq "ViaEnhancedApi" -and $_.status -iin @("Unknown", "inProgress", "notStarted") }))
 {
     Write-Host "Posting a new Refresh Command"
 
@@ -96,7 +96,6 @@ do
     Start-Sleep -Seconds 2
 
 }
-
 while($refreshDetails.status -iin @("Unknown", "inProgress", "notStarted"))
 
 Write-Host "Refresh complete: $((([datetime]$refreshDetails.endTime) - ([datetime]$refreshDetails.startTime)).TotalSeconds)s"

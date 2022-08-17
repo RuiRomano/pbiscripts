@@ -16,7 +16,7 @@ $currentPath = (Split-Path $MyInvocation.MyCommand.Definition -Parent)
 
 Set-Location $currentPath
 
-Import-Module "$currentPath\Modules\ASTabularHelper" -Force
+Import-Module "$currentPath\TOMHelper.psm1" -Force
 
 $bimFilePath = "$currentPath\output\$databaseName.bim" 
 

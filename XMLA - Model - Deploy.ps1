@@ -8,7 +8,7 @@ $currentPath = (Split-Path $MyInvocation.MyCommand.Definition -Parent)
 
 Set-Location $currentPath
 
-Import-Module "$currentPath\Modules\ASTabularHelper" -Force
+Import-Module "$currentPath\TOMHelper.psm1" -Force
 
 Update-ASDatabase -serverName $serverName -databaseName $databaseName -bimFilePath $bimFilePath -deployPartitions:$true -deployRoles:$false -deployConnections:$false
                         

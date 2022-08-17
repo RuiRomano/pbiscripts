@@ -6,7 +6,7 @@ $serverName = "powerbi://api.powerbi.com/v1.0/myorg/Session%20-%20PBI%20Dev%20on
 
 $currentPath = (Split-Path $MyInvocation.MyCommand.Definition -Parent)
 
-Add-Type -Path "$currentPath\Modules\ASTabularHelper\Microsoft.AnalysisServices.Tabular.dll"
+Import-Module "$currentPath\TOMHelper.psm1" -Force
 
 $asModelType = [Microsoft.AnalysisServices.Tabular.Model]
 
