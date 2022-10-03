@@ -1,9 +1,9 @@
 #Requires -Modules @{ ModuleName="MicrosoftPowerBIMgmt"; ModuleVersion="1.2.1026" }
 
 param(
-    $workspaceId = "cdee92d2-3ff9-43e2-9f71-0916e888ad27"
+    $workspaceId = "7331d174-e08f-4802-acba-898b8cecbc75"
     ,
-    $datasetId = "ff63139f-eea9-4296-a5e4-3f56c0005701"
+    $datasetId = "ae14bdd8-d5da-4908-a566-917db2c275e9"
     ,
     $type = "full"
     ,
@@ -12,40 +12,10 @@ param(
     $commitMode = "transactional"    
     #$commitMode = "partialBatch"
     ,
-    $retryCount = 2
+    $retryCount = 5
     ,
     $objects = @(
-        @{
-            "table" = "Product"           
-        }    
-        ,
-         @{
-            "table" = "Store"           
-        }    
-        ,
-        @{
-            "table" = "Sales"
-            ;
-            "partition" = "Sales_2018"
-        }
-        ,
-        @{
-            "table" = "Sales"
-            ;
-            "partition" = "Sales_2019"
-        } 
-        ,
-        @{
-            "table" = "Sales"
-            ;
-            "partition" = "Sales_2017"
-        } 
-        ,
-        @{
-            "table" = "Sales"
-            ;
-            "partition" = "Sales_2016"
-        } 
+       
     )
     
 )
