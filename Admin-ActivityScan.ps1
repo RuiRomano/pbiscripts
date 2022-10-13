@@ -5,7 +5,7 @@ param (
     ,
     $outputPath = ".\output\activity"
     ,
-    $filter = "CapacityId eq '7DE26338-A4B5-445D-A455-058B336117A3'"
+    $filter = ""
 )
 
 $ErrorActionPreference = "Stop"
