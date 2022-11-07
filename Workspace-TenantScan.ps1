@@ -2,7 +2,7 @@
 
 param (    
     $modifiedSince = $null, ##[datetime]::UtcNow.Date.AddDays(-10),
-    $getInfoDetails = "getArtifactUsers=true&lineage=false&datasourceDetails=true&datasetSchema=true&datasetExpressions=true",
+    $getInfoDetails = "getArtifactUsers=true&lineage=true&datasourceDetails=true&datasetSchema=true&datasetExpressions=true",
     $excludePersonalWorkspaces = $false,
     $excludeInActiveWorkspaces = $false,
     $outputPath = ".\output\workspacescan"
