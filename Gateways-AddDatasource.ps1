@@ -20,7 +20,7 @@ $currentPath = (Split-Path $MyInvocation.MyCommand.Definition -Parent)
 
 # Install the Power BI package into the current working directory if it's not already installed
 if (!(Test-Path "$currentPath\Nuget\Microsoft.PowerBI.Api.3.18.1" -PathType Container)) {
-    Install-Package -Name Microsoft.PowerBi.Api -ProviderName NuGet -Scope CurrentUser -RequiredVersion 3.18.1 -SkipDependencies -Destination "$currentPath\Nuget" -Force
+    Install-Package -Name "Microsoft.PowerBI.Api" -ProviderName NuGet -Scope CurrentUser -RequiredVersion 3.18.1 -SkipDependencies -Destination "$currentPath\Nuget" -Force
 }
 
 if ($PSVersionTable.PSVersion.Major -le 5) {
