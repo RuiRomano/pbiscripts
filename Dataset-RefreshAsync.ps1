@@ -1,18 +1,18 @@
 #Requires -Modules @{ ModuleName="MicrosoftPowerBIMgmt"; ModuleVersion="1.2.1026" }
 
 param(
-    $workspaceId = "7331d174-e08f-4802-acba-898b8cecbc75"
+    $workspaceId = "6b75551a-6107-4688-a1bf-f6a8eb52df71"
     ,
-    $datasetId = "ae14bdd8-d5da-4908-a566-917db2c275e9"
+    $datasetId = "d6ba1cf6-ca85-4676-9db5-fa91c3c69f19"
     ,
     $type = "full"
     ,
-    $maxParallelism = 3
+    $maxParallelism = 6
     ,
     $commitMode = "transactional"    
     #$commitMode = "partialBatch"
     ,
-    $retryCount = 5
+    $retryCount = 1
     ,
     $objects = @(
        
