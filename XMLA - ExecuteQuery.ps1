@@ -1,5 +1,5 @@
 param(
-    $connStr = "Provider=MSOLAP;Integrated Security=SSPI;Persist Security Info=False;Data Source=localhost\sql2019; Initial Catalog = AdventureWorks;SubQueries=2"
+    $connStr = "Provider=MSOLAP;Integrated Security=SSPI;Persist Security Info=False;Data Source=localhost\sql2019; Initial Catalog = AdventureWorks;SubQueries=2;"
     ,
     #$query = "SELECT {[Measures].[Internet Total Sales]}  ON 0,    [Date].[Calendar Year].[Calendar Year].MEMBERS  ON 1  FROM  [Adventure Works Internet Sales Model]"
     $query = "EVALUATE 'Internet Sales'"
@@ -60,12 +60,12 @@ for ($i = 1; $i -le $executionTimes; $i++)
             $reader = $cmd.ExecuteReader()
 
             $rowCount = 0        
-
+            
             while($reader.Read())
-            {
+            {                
                 if ($rowCount % $logRowCount -eq 0)
                 {
-                    Write-Host "Reading... [$rowCount]"
+                    Write-Host "Reading... [$rowCount] - [$([datetime]::UtcNow.ToString("yyyy-MM-dd HH:mm:ss"))]"
                 }
 
                 $rowCount++
