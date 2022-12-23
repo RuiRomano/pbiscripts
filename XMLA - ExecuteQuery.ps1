@@ -9,6 +9,8 @@ param(
     $executionTimes = 3
     ,
     $executionSleep = 5
+    ,
+    $reuseConnection = $false
 )
 
 cls
@@ -32,17 +34,24 @@ Write-Host "Assembly version loaded: '$($assembly.FullName)' from '$($assembly.L
 
 $report = @()
 
+$conn = $null
+
 for ($i = 1; $i -le $executionTimes; $i++)
 {    
     Write-Host "Execution $i / $executionTimes"
 
     try
     {
-        $conn = new-object Microsoft.AnalysisServices.AdomdClient.AdomdConnection
+        if (!$reuseConnection -or !$conn)
+        {
+            Write-Host "Opening connection"
 
-        $conn.ConnectionString = $connStr
+            $conn = new-object Microsoft.AnalysisServices.AdomdClient.AdomdConnection
 
-        $conn.Open()
+            $conn.ConnectionString = $connStr
+
+            $conn.Open()
+        }
 
         try 
         {
@@ -80,6 +89,11 @@ for ($i = 1; $i -le $executionTimes; $i++)
 
             $report += @{ExecutionId = $i; Duration = [Math]::Round($sw.Elapsed.TotalSeconds,3)}
 
+            if ($reader)
+            {
+                $reader.Dispose()
+            }
+
             if ($cmd)
             {
                 $cmd.Dispose()
@@ -88,9 +102,12 @@ for ($i = 1; $i -le $executionTimes; $i++)
     }
     finally
     {
-        if ($conn -ne $null)
+        if (!$reuseConnection -and $conn -ne $null)
         {        
+            Write-Host "Disposing Connection"
+
             $conn.Dispose()
+
             $conn = $null
         }
     }
@@ -98,6 +115,15 @@ for ($i = 1; $i -le $executionTimes; $i++)
     Write-Host "Sleeping..."
 
     Start-Sleep -Seconds $executionSleep
+}
+
+ if ($conn -ne $null)
+{        
+    Write-Host "Disposing Connection"
+
+    $conn.Dispose()
+
+    $conn = $null
 }
 
 $report |% { [PSCustomObject]$_ } | format-table -AutoSize

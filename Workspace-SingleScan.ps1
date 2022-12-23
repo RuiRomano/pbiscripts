@@ -1,7 +1,7 @@
 #Requires -Modules @{ ModuleName="MicrosoftPowerBIMgmt"; ModuleVersion="1.2.1077" }
 
 param (    
-    $workspaces = @("401927c5-2c16-4d48-85c9-21f1038c7862"),
+    $workspaces = @("8d1faf18-0272-4644-ada4-1c2095abb072"),
     $getInfoDetails = "getArtifactUsers=true&lineage=true&datasourceDetails=true&datasetSchema=true&datasetExpressions=true",
     $outputPath = ".\output\workspacesinglescan"
 )
