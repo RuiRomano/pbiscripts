@@ -10,7 +10,7 @@ param(
     ,
     $executionSleep = 5
     ,
-    $reuseConnection = $false
+    $reuseConnection = $true
 )
 
 cls
