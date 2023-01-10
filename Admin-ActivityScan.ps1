@@ -1,11 +1,15 @@
 #Requires -Modules @{ ModuleName="MicrosoftPowerBIMgmt"; ModuleVersion="1.2.1077" }
 
 param (    
-    $numberDays = 5
+    $numberDays = 0
     ,
     $outputPath = ".\output\activity"
     ,
     $filter = ""
+    ,
+    $servicePrincipalId = "",
+    $servicePrincipalSecret = "",
+    $servicePrincipalTenantId = ""
 )
 
 $ErrorActionPreference = "Stop"
@@ -14,7 +18,17 @@ $currentPath = (Split-Path $MyInvocation.MyCommand.Definition -Parent)
 
 Set-Location $currentPath
 
-Connect-PowerBIServiceAccount
+if ($servicePrincipalId)
+{
+    $credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $servicePrincipalId, ($servicePrincipalSecret | ConvertTo-SecureString -AsPlainText -Force)
+
+    $pbiAccount = Connect-PowerBIServiceAccount -ServicePrincipal -Tenant $servicePrincipalTenantId -Credential $credential
+}
+else {
+    $pbiAccount = Connect-PowerBIServiceAccount
+}
+
+Write-Host "Login with: $($pbiAccount.UserName)"
 
 $maxHistoryDate = [datetime]::UtcNow.Date.AddDays(-30)
 
@@ -68,7 +82,7 @@ while ($pivotDate -le [datetime]::UtcNow) {
 
             New-Item -Path (Split-Path $outputFilePath -Parent) -ItemType Directory -Force -ErrorAction SilentlyContinue | Out-Null
 
-            ConvertTo-Json @($audits) -Compress -Depth 5 | Out-File $outputFilePath -force
+            ConvertTo-Json @($audits) -Compress -Depth 10 | Out-File $outputFilePath -force
             
             $flagNoActivity = $false
 
@@ -83,5 +97,7 @@ while ($pivotDate -le [datetime]::UtcNow) {
     {
         Write-Warning "No audit logs for date: '$($pivotDate.ToString("yyyyMMdd"))'"
     }    
+
+    $pivotDate = $pivotDate.AddDays(1)
 }
 
