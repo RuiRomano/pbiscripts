@@ -1,11 +1,11 @@
 #Requires -Modules @{ ModuleName="MicrosoftPowerBIMgmt"; ModuleVersion="1.2.1077" }
 
 param (    
-    $modifiedSince = $null, ##[datetime]::UtcNow.Date.AddDays(-10),
+    $modifiedSince = $null, #[datetime]::UtcNow.Date.AddDays(-10),
     $getInfoDetails = "getArtifactUsers=true&lineage=true&datasourceDetails=true&datasetSchema=true&datasetExpressions=true",
     $excludePersonalWorkspaces = $false,
     $excludeInActiveWorkspaces = $false,
-    $outputPath = ".\output\workspacescan"
+    $outputPath = ".\output\tenantscan"
 )
 
 #region Functions
@@ -189,12 +189,12 @@ else {
         
                 Write-Host "Scan Result'$($scanStatus.id)' : '$($scanResult.workspaces.Count)'"
         
-                $fullScanSuffix = ""
+                $fullScanSuffix = ".scan"
 
                 if ($fullScan)
                 {              
                     $fullScanSuffix = ".fullscan"      
-                }
+                }              
                 
                 $outputFilePath = "$scansOutputPath\$($workspaceScanRequest.id)$fullScanSuffix.json"
         
