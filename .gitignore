@@ -10,3 +10,4 @@ datasetlineage.json
 _temp/
 
 /nuget/*
+*.pbix

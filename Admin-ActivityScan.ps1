@@ -1,7 +1,7 @@
 #Requires -Modules @{ ModuleName="MicrosoftPowerBIMgmt"; ModuleVersion="1.2.1077" }
 
 param (    
-    $numberDays = 0
+    $numberDays = 1
     ,
     $outputPath = ".\output\activity"
     ,
