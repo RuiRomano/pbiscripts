@@ -1,12 +1,9 @@
 #Requires -Modules @{ ModuleName="MicrosoftPowerBIMgmt"; ModuleVersion="1.2.1077" }
 
 param (    
-    $numberDays = 1
-    ,
-    $outputPath = ".\output\activity"
-    ,
-    $filter = ""
-    ,
+    $numberDays = 10,
+    $outputPath = ".\output\activity",
+    $filter = "",
     $servicePrincipalId = "",
     $servicePrincipalSecret = "",
     $servicePrincipalTenantId = ""
