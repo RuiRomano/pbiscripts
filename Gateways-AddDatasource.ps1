@@ -68,6 +68,8 @@ else {
     {
         Write-Host "Creating Datasource '$datasourceName'"
 
+        # More info about configure credentials: https://learn.microsoft.com/en-us/power-bi/developer/embedded/configure-credentials?tabs=sdk3
+
         $gatewayKeyObj = [Microsoft.PowerBI.Api.Models.GatewayPublicKey]::new($gateway.publicKey.exponent, $gateway.publicKey.modulus)
         $basicCreds = [Microsoft.PowerBI.Api.Models.Credentials.BasicCredentials]::new($username, $password)
         $credentialsEncryptor = [Microsoft.PowerBI.Api.Extensions.AsymmetricKeyEncryptor]::new($gatewayKeyObj)

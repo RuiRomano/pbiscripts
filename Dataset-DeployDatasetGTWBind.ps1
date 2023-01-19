@@ -7,7 +7,7 @@ $currentPath = (Split-Path $MyInvocation.MyCommand.Definition -Parent)
 $workspaceId = "9758f2b2-de31-433a-8ebd-197e4b754ed3"
 $templateDatasetPath = "$currentPath\SampleSQLReport.pbix"
 $datasetParams = @{"Server"=".\sql2019";"Database"="Contoso 1M";"TopN"="100000"}
-$numberDatasets = 100
+$numberDatasets = 150
 $gatewayName = "RRMSFT-GW"
 $datasourceName = "localhost_sql20192"
 $refreshDatasets = $false
