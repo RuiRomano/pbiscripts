@@ -6,9 +6,9 @@ param(
     $datasetId = "99b285a0-086e-47b7-8af6-7938b698e37a"
 )
 
-try { Get-PowerBIAccessToken } catch {  Connect-PowerBIServiceAccount }
+try { Get-PowerBIAccessToken | out-null } catch {  Connect-PowerBIServiceAccount }
 
-Write-Host "Check sync status"
+Write-Host "Checking sync status"
 
 $syncStatus = Invoke-PowerBIRestMethod -Url "groups/$workspaceId/datasets/$datasetId/syncStatus" -Method Get | ConvertFrom-Json 
 
