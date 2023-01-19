@@ -8,7 +8,7 @@ param(
 
 try { Get-PowerBIAccessToken | out-null } catch {  Connect-PowerBIServiceAccount }
 
-Write-Host "Checking sync status"
+Write-Host "Checking sync status for dataset '$datasetId'"
 
 $syncStatus = Invoke-PowerBIRestMethod -Url "groups/$workspaceId/datasets/$datasetId/syncStatus" -Method Get | ConvertFrom-Json 
 
@@ -20,7 +20,7 @@ if ($syncStatus.commitVersion -ne $syncStatus.minActiveReadVersion)
 
     Write-Host "Syncing"
 
-    $syncStatus = Invoke-PowerBIRestMethod -Url "groups/$workspaceId/datasets/$datasetId/sync" -Method Post | ConvertFrom-Json 
+    $syncStatus = Invoke-PowerBIRestMethod -Url "groups/$workspaceId/datasets/$datasetId/sync" -Body "" -Method Post | ConvertFrom-Json 
 
     while ($syncStatus.commitVersion -ne $syncStatus.minActiveReadVersion)
     {
@@ -28,9 +28,9 @@ if ($syncStatus.commitVersion -ne $syncStatus.minActiveReadVersion)
 
         if ($syncStatus.commitVersion -eq $syncStatus.minActiveReadVersion)
         {
-            Write-Host "Dataset in Sync"
-            Write-Host "Sync duration: $(($syncStatus.syncEndTime - $syncStatus.syncStartTime).TotalSeconds)"
-            Write-Host "minActiveReadTimestamp: $($syncStatus.minActiveReadTimestamp)"
+            Write-Host "Dataset in Sync!"
+            Write-Host "Duration: $(($syncStatus.syncEndTime - $syncStatus.syncStartTime).TotalSeconds)"
+            Write-Host "Read Replica timestamp: $($syncStatus.minActiveReadTimestamp)"
 
         }
         else {
@@ -41,6 +41,6 @@ if ($syncStatus.commitVersion -ne $syncStatus.minActiveReadVersion)
 
 }
 else {
-    Write-Host "Dataset is in sync"
+    Write-Host "Dataset in Sync!"
 }
 
