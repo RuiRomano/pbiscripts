@@ -4,13 +4,13 @@ $ErrorActionPreference = "Stop"
 
 $currentPath = (Split-Path $MyInvocation.MyCommand.Definition -Parent)
 
-$workspaceId = "9758f2b2-de31-433a-8ebd-197e4b754ed3"
+$workspaceId = "dabe734e-b4cf-4b2a-80ab-f085e2f06704"
 $templateDatasetPath = "$currentPath\SampleSQLReport.pbix"
 $datasetParams = @{"Server"=".\sql2019";"Database"="Contoso 1M";"TopN"="100000"}
-$numberDatasets = 150
+$numberDatasets = 50
 $gatewayName = "RRMSFT-GW"
 $datasourceName = "localhost_sql20192"
-$refreshDatasets = $false
+$refreshDatasets = $true
 $configureDatasets = $true
 $scheduleRefreshConfig = @{
     "value" = @{
@@ -55,7 +55,7 @@ $datasets = Get-PowerBIDataset -WorkspaceId $workspaceId
 
 foreach($dsNumber in @(1..$numberDatasets))
 {    
-    $datasetName = "$fileName - $dsNumber"   
+    $datasetName = "$fileName - $("{0:000}" -f $dsNumber)"   
 
     if (@($datasets |? Name -eq $datasetName))
     {
@@ -73,13 +73,22 @@ foreach($dsNumber in @(1..$numberDatasets))
 
 $datasets = Get-PowerBIDataset -WorkspaceId $workspaceId
 
+$datasets = $datasets |? {
+    $datasetNumber = [int]($_.name.split("-")[1].Trim())
+    $datasetNumber -le $numberDatasets
+}
+
+Write-Host "Processing $($datasets.count) datasets"
+
 if ($configureDatasets)
 {
     $scheduleRefreshConfigStr = ConvertTo-Json $scheduleRefreshConfig -Depth 10
 
     foreach($dataset in $datasets)
     {
-        Write-Host "Set parameters for dataset '$($dataset.Id)'"
+        Write-host "Configuring dataset '$($dataset.Name)'"
+
+        Write-Host "Set parameters for dataset"
 
         $parametersBody = @{updateDetails=@($datasetParams.Keys) |% { 
                 @{
@@ -94,13 +103,13 @@ if ($configureDatasets)
 
         Invoke-PowerBIRestMethod -Url "groups/$workspaceId/datasets/$($dataset.id)/UpdateParameters" -Body $parametersBodyStr -Method Post | Out-Null
 
-        Write-Host "Bind dataset '$($dataset.Id)' to Gateway"
+        Write-Host "Bind dataset to Gateway"
         
         $bodyStr = @{gatewayObjectId = $datasource.gatewayId; datasourceObjectIds = @($datasource.id)} | ConvertTo-Json
 
         Invoke-PowerBIRestMethod -Url "groups/$workspaceId/datasets/$($dataset.Id)/Default.BindToGateway" -Method Post -Body $bodyStr | Out-Null
 
-        Write-Host "Schedule refresh config on dataset '$($dataset.Id)'"
+        Write-Host "Schedule refresh config on dataset"
 
         Invoke-PowerBIRestMethod -Url "groups/$workspaceId/datasets/$($dataset.Id)/refreshSchedule" -Method Patch -Body $scheduleRefreshConfigStr | Out-Null    
     }
@@ -110,8 +119,8 @@ if ($refreshDatasets)
 {
     foreach($dataset in $datasets)
     {
-        Write-Host "Refresh dataset '$($dataset.Id)'"
+        Write-Host "Refresh dataset '$($dataset.Name)'"
 
-        Invoke-PowerBIRestMethod -Url "groups/$workspaceId/datasets/$($dataset.Id)/refreshes" -Method Post -Body $bodyStr | Out-Null
+        Invoke-PowerBIRestMethod -Url "groups/$workspaceId/datasets/$($dataset.Id)/refreshes" -Method Post -Body "" | Out-Null
     }
 }

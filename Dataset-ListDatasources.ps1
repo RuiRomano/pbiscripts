@@ -19,6 +19,8 @@ $datasources | Format-List
 
 $gatewayId = $datasources | select -First 1 -ExpandProperty gatewayId
 
+$datasourcesIdsToMatch = @($datasources.datasourceId)
+
 $gwDatasources = Invoke-PowerBIRestMethod -url "gateways/$gatewayId/datasources" -method Get | ConvertFrom-Json | Select -ExpandProperty value
 
-$gwDatasources | Format-List
+$gwDatasources |? { $datasourcesIdsToMatch -contains $_.id } | Format-List
