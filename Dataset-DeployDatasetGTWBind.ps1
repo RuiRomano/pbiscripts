@@ -5,9 +5,9 @@ $ErrorActionPreference = "Stop"
 $currentPath = (Split-Path $MyInvocation.MyCommand.Definition -Parent)
 
 $workspaceId = "dabe734e-b4cf-4b2a-80ab-f085e2f06704"
-$templateDatasetPath = "$currentPath\SampleSQLReport.pbix"
+$templateDatasetPath = "$currentPath\SampleXSQLReport.pbix"
 $datasetParams = @{"Server"=".\sql2019";"Database"="Contoso 1M";"TopN"="100000"}
-$numberDatasets = 50
+$numberDatasets = 5
 $gatewayName = "RRMSFT-GW"
 $datasourceName = "localhost_sql20192"
 $refreshDatasets = $true
@@ -53,9 +53,13 @@ $fileName = [System.IO.Path]::GetFileNameWithoutExtension($templateDatasetPath)
 
 $datasets = Get-PowerBIDataset -WorkspaceId $workspaceId
 
+$deployedDatasetNames = @()
+
 foreach($dsNumber in @(1..$numberDatasets))
 {    
     $datasetName = "$fileName - $("{0:000}" -f $dsNumber)"   
+
+    $deployedDatasetNames += $datasetName
 
     if (@($datasets |? Name -eq $datasetName))
     {
@@ -74,8 +78,7 @@ foreach($dsNumber in @(1..$numberDatasets))
 $datasets = Get-PowerBIDataset -WorkspaceId $workspaceId
 
 $datasets = $datasets |? {
-    $datasetNumber = [int]($_.name.split("-")[1].Trim())
-    $datasetNumber -le $numberDatasets
+    $deployedDatasetNames -contains $_.name    
 }
 
 Write-Host "Processing $($datasets.count) datasets"
@@ -88,20 +91,23 @@ if ($configureDatasets)
     {
         Write-host "Configuring dataset '$($dataset.Name)'"
 
-        Write-Host "Set parameters for dataset"
+        if ($datasetParams || $datasetParams.Keys.Count -gt 0)
+        {
+            Write-Host "Set parameters for dataset"
 
-        $parametersBody = @{updateDetails=@($datasetParams.Keys) |% { 
-                @{
-                    "name" = $_
-                    ;
-                    "newValue" = $datasetParams[$_]
+            $parametersBody = @{updateDetails=@($datasetParams.Keys) |% { 
+                    @{
+                        "name" = $_
+                        ;
+                        "newValue" = $datasetParams[$_]
+                    }
                 }
             }
+
+            $parametersBodyStr = ConvertTo-Json $parametersBody -Depth 10
+
+            Invoke-PowerBIRestMethod -Url "groups/$workspaceId/datasets/$($dataset.id)/UpdateParameters" -Body $parametersBodyStr -Method Post | Out-Null
         }
-
-        $parametersBodyStr = ConvertTo-Json $parametersBody -Depth 10
-
-        Invoke-PowerBIRestMethod -Url "groups/$workspaceId/datasets/$($dataset.id)/UpdateParameters" -Body $parametersBodyStr -Method Post | Out-Null
 
         Write-Host "Bind dataset to Gateway"
         
