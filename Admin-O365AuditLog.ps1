@@ -11,4 +11,6 @@ Connect-ExchangeOnline -UserPrincipalName rromano@rrmsft.onmicrosoft.com
 
 # Now you can query for Power BI activity. In this example, the results are limited to 
 # 1,000, shown as a table, and the "more" command causes output to display one screen at a time. 
-$results = Search-UnifiedAuditLog -StartDate '2023-01-31' -EndDate '2023-02-01' -RecordType PowerBIAudit -ResultSize 1000
+$results = Search-UnifiedAuditLog -StartDate "2023-01-31 00:00:00z" -EndDate "2023-01-31 23:00:00z" -RecordType PowerBIAudit -ResultSize 1000
+
+$results
