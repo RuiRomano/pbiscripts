@@ -1,9 +1,10 @@
 #Requires -Modules @{ ModuleName="MicrosoftPowerBIMgmt"; ModuleVersion="1.2.1077" }
 
 param (    
-    $numberDays = 10,
+    $numberDays = 0,
     $outputPath = ".\output\activity",
     $filter = "",
+    $outputBatchCount = 5000,
     $servicePrincipalId = "",
     $servicePrincipalSecret = "",
     $servicePrincipalTenantId = ""
@@ -15,14 +16,19 @@ $currentPath = (Split-Path $MyInvocation.MyCommand.Definition -Parent)
 
 Set-Location $currentPath
 
-if ($servicePrincipalId)
-{
-    $credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $servicePrincipalId, ($servicePrincipalSecret | ConvertTo-SecureString -AsPlainText -Force)
-
-    $pbiAccount = Connect-PowerBIServiceAccount -ServicePrincipal -Tenant $servicePrincipalTenantId -Credential $credential
+try {
+    $token = Get-PowerBIAccessToken    
 }
-else {
-    $pbiAccount = Connect-PowerBIServiceAccount
+catch {
+    if ($servicePrincipalId)
+    {
+        $credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $servicePrincipalId, ($servicePrincipalSecret | ConvertTo-SecureString -AsPlainText -Force)
+
+        $pbiAccount = Connect-PowerBIServiceAccount -ServicePrincipal -Tenant $servicePrincipalTenantId -Credential $credential
+    }
+    else {
+        $pbiAccount = Connect-PowerBIServiceAccount
+    }
 }
 
 Write-Host "Login with: $($pbiAccount.UserName)"
