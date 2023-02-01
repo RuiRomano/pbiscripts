@@ -1,7 +1,7 @@
 #Requires -Modules @{ ModuleName="MicrosoftPowerBIMgmt"; ModuleVersion="1.2.1077" }
 
 param (    
-    $workspaces = @("8d1faf18-0272-4644-ada4-1c2095abb072"),
+    $workspaces = @("cdee92d2-3ff9-43e2-9f71-0916e888ad27"),
     $getInfoDetails = "getArtifactUsers=true&lineage=true&datasourceDetails=true&datasetSchema=true&datasetExpressions=true",
     $outputPath = ".\output\workspacesinglescan"
 )
@@ -16,7 +16,12 @@ $scansOutputPath = $outputPath
 
 New-Item -ItemType Directory -Path $scansOutputPath -ErrorAction SilentlyContinue | Out-Null
 
-Connect-PowerBIServiceAccount
+try {
+    $token = Get-PowerBIAccessToken    
+}
+catch {
+    $pbiAccount = Connect-PowerBIServiceAccount
+}
     
 $bodyStr = @{"workspaces" = @($workspaces) } | ConvertTo-Json
     
