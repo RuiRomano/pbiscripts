@@ -4,14 +4,15 @@ $ErrorActionPreference = "Stop"
 
 $currentPath = (Split-Path $MyInvocation.MyCommand.Definition -Parent)
 
-$workspaceId = "dabe734e-b4cf-4b2a-80ab-f085e2f06704"
-$templateDatasetPath = "$currentPath\SampleXSQLReport.pbix"
-$datasetParams = @{"Server"=".\sql2019";"Database"="Contoso 1M";"TopN"="100000"}
-$numberDatasets = 5
-$gatewayName = "RRMSFT-GW"
-$datasourceName = "localhost_sql20192"
+$workspaceId = "114ee10f-5e0c-4821-bd5f-058eb8e1f287"
+$templateDatasetPath = "$currentPath\SampleFolderGTW.pbix"
+$datasetParams = $null
+#$datasetParams = @{"Server"=".\sql2019";"Database"="Contoso 1M";"TopN"="100000"}
+$numberDatasets = 15
+$gatewayName = "PBICATGTW1"
+$datasourceName = "temp folder"
 $refreshDatasets = $true
-$configureDatasets = $true
+$configureDatasets = $false
 $scheduleRefreshConfig = @{
     "value" = @{
         "enabled" = "false"

@@ -5,7 +5,10 @@ param (
     $getInfoDetails = "getArtifactUsers=true&lineage=true&datasourceDetails=true&datasetSchema=true&datasetExpressions=true",
     $excludePersonalWorkspaces = $false,
     $excludeInActiveWorkspaces = $false,
-    $outputPath = ".\output\tenantscan"
+    $outputPath = ".\output\tenantscan",
+    $servicePrincipalId = "",
+    $servicePrincipalSecret = "",
+    $servicePrincipalTenantId = ""
 )
 
 #region Functions
@@ -98,7 +101,20 @@ $scansOutputPath = Join-Path $outputPath ("{0:yyyy}\{0:MM}\{0:dd}" -f [datetime]
 
 New-Item -ItemType Directory -Path $scansOutputPath -ErrorAction SilentlyContinue | Out-Null
 
-Connect-PowerBIServiceAccount
+try {
+    $token = Get-PowerBIAccessToken    
+}
+catch {
+    if ($servicePrincipalId)
+    {
+        $credential = New-Object -TypeName System.Management.Automation.PSCredential -ArgumentList $servicePrincipalId, ($servicePrincipalSecret | ConvertTo-SecureString -AsPlainText -Force)
+
+        $pbiAccount = Connect-PowerBIServiceAccount -ServicePrincipal -Tenant $servicePrincipalTenantId -Credential $credential
+    }
+    else {
+        $pbiAccount = Connect-PowerBIServiceAccount
+    }
+}
     
 $modifiedRequestUrl = "admin/workspaces/modified?excludePersonalWorkspaces=$excludePersonalWorkspaces&excludeInActiveWorkspaces=$excludeInActiveWorkspaces"
 
