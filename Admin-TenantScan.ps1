@@ -4,7 +4,7 @@ param (
     $modifiedSince = $null, #[datetime]::UtcNow.Date.AddDays(-10),
     $getInfoDetails = "getArtifactUsers=true&lineage=true&datasourceDetails=true&datasetSchema=true&datasetExpressions=true",
     $excludePersonalWorkspaces = $false,
-    $excludeInActiveWorkspaces = $false,
+    $excludeInActiveWorkspaces = $true,
     $outputPath = ".\output\tenantscan",
     $servicePrincipalId = "",
     $servicePrincipalSecret = "",
