@@ -8,20 +8,20 @@ $workspaceId = "114ee10f-5e0c-4821-bd5f-058eb8e1f287"
 $templateDatasetPath = "$currentPath\SampleFolderGTW.pbix"
 $datasetParams = $null
 #$datasetParams = @{"Server"=".\sql2019";"Database"="Contoso 1M";"TopN"="100000"}
-$numberDatasets = 15
+$numberDatasets = 20
 $gatewayName = "PBICATGTW1"
 $datasourceName = "temp folder"
-$refreshDatasets = $true
-$configureDatasets = $false
+$refreshDatasets = $false
+$configureDatasets = $true
 $scheduleRefreshConfig = @{
     "value" = @{
-        "enabled" = "false"
-        # ;
-        # "days" = @("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")
-        # ;
-        # "times" = @("17:30")
-        # ;
-        # "localTimeZoneId" = "UTC"
+        "enabled" = "true"
+        ;
+        "days" = @( "Friday")
+        ;
+        "times" = @("15:30")
+        ;
+        "localTimeZoneId" = "UTC"
     }
 }
 
